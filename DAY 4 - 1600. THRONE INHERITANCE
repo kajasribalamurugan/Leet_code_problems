@@ -1,1 +1,48 @@
+class ThroneInheritance {
 
+    class Person {
+        String name;
+        List<Person> children = new ArrayList<>();
+        boolean alive = true;
+
+        Person(String name) {
+            this.name = name;
+        }
+    }
+
+    Map<String, Person> map = new HashMap<>();
+    Person king;
+
+    public ThroneInheritance(String kingName) {
+        king = new Person(kingName);
+        map.put(kingName, king);
+    }
+
+    public void birth(String parentName, String childName) {
+        Person parent = map.get(parentName);
+        Person child = new Person(childName);
+
+        parent.children.add(child);
+        map.put(childName, child);
+    }
+
+    public void death(String name) {
+        map.get(name).alive = false;
+    }
+
+    public List<String> getInheritanceOrder() {
+        List<String> order = new ArrayList<>();
+        dfs(king, order);
+        return order;
+    }
+
+    private void dfs(Person person, List<String> order) {
+        if (person.alive) {
+            order.add(person.name);
+        }
+
+        for (Person child : person.children) {
+            dfs(child, order);
+        }
+    }
+}
