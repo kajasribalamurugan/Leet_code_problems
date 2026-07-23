@@ -1,0 +1,26 @@
+class Solution {
+    public boolean isValid(String s) {
+        Deque<Character> stack = new ArrayDeque<>();
+        
+        for (char c : s.toCharArray()) {
+            stack.push(c);
+            
+            if (stack.size() >= 3) {
+                char first = stack.pop();
+                char second = stack.pop();
+                char third = stack.pop();
+                
+                if (first == 'c' && second == 'b' && third == 'a') {
+                    // valid "abc" found, don't push back
+                } else {
+                    // not a match, push back in original order
+                    stack.push(third);
+                    stack.push(second);
+                    stack.push(first);
+                }
+            }
+        }
+        
+        return stack.isEmpty();
+    }
+}
