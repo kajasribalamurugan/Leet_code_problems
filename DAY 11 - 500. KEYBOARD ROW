@@ -1,19 +1,38 @@
-class MyHashSet {
-    private boolean[] set;
+class Solution {
+    public String[] findWords(String[] words) {
+        String[] rows = {
+            "qwertyuiop",
+            "asdfghjkl",
+            "zxcvbnm"
+        };
 
-    public MyHashSet() {
-        set = new boolean[1000001];
-    }
+        // Map each character to its row index
+        int[] charToRow = new int[26];
+        for (int i = 0; i < rows.length; i++) {
+            for (char c : rows[i].toCharArray()) {
+                charToRow[c - 'a'] = i;
+            }
+        }
 
-    public void add(int key) {
-        set[key] = true;
-    }
+        List<String> result = new ArrayList<>();
 
-    public void remove(int key) {
-        set[key] = false;
-    }
+        for (String word : words) {
+            String lower = word.toLowerCase();
+            int row = charToRow[lower.charAt(0) - 'a'];
+            boolean valid = true;
 
-    public boolean contains(int key) {
-        return set[key];
+            for (char c : lower.toCharArray()) {
+                if (charToRow[c - 'a'] != row) {
+                    valid = false;
+                    break;
+                }
+            }
+
+            if (valid) {
+                result.add(word);
+            }
+        }
+
+        return result.toArray(new String[0]);
     }
 }
